@@ -1,4 +1,11 @@
 const WriteFileWebpackPlugin = require('write-file-webpack-plugin')
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+
+const htmlPlugin = new HtmlWebPackPlugin({
+  template: "./index.html",
+  filename: "./index.html"
+});
+
 
 module.exports = {
   optimization: {
@@ -26,7 +33,7 @@ module.exports = {
       }
     }
   },
-  plugins: [new WriteFileWebpackPlugin()],
+  plugins: [new WriteFileWebpackPlugin(),htmlPlugin],
   devServer: {
     historyApiFallback: true
   },
@@ -36,7 +43,6 @@ module.exports = {
     publicPath: '/',
     path: __dirname + '/dist'
   },
-  mode: 'development',
   devtool: 'source-map',
   resolve: {
     extensions: ['.js', '.json', '.ts', '.tsx']
