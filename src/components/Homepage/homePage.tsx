@@ -1,11 +1,34 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import './homePage.css'
+import Login from '../Login/login'
+import SignUp from '../signUp/signUp'
 
 class HomePage extends React.Component<any, any>{
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            showLogin: false,
+            showSignup: false
+        }
+    }
+    showLogin = () => {
+
+        this.setState({
+            showLogin: !this.state.showLogin
+        })
+    }
+    showSignup = () => {
+        this.setState({
+            showSignup: !this.state.showSignup
+        })
+    }
     render() {
         return (
             <React.Fragment>
+                {this.state.showLogin && <Login showLogin={this.showLogin} />}
+                {this.state.showSignup && <SignUp showSignup={this.showSignup} showLogin={this.showLogin} />}
                 <header>
                     <div className='container-fluid'>
                         <div className='top-bar'>
@@ -28,10 +51,10 @@ class HomePage extends React.Component<any, any>{
                                         <a>Contact</a>
                                     </li>
                                     <li>
-                                        <a>Member Login</a>
+                                        <a onClick={this.showLogin}>Member Login</a>
                                     </li>
                                     <li>
-                                        <a>Sign Up</a>
+                                        <a onClick={this.showSignup}>Sign Up</a>
                                     </li>
                                 </ul>
                             </div>

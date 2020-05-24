@@ -1,0 +1,24 @@
+.text-area,
+.text-field,
+.text-fields {
+  position: relative;
+  margin: 10px 0px;
+  min-height: 63px;
+  padding-right: 10px;
+  position: relative;
+
+  .makeStyles-root-1>* {
+    margin-left: 0 !important;
+    font-family: "muli" !important;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
