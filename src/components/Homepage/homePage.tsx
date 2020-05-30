@@ -1,34 +1,29 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import './homePage.css'
-import Login from '../Login/login'
-import SignUp from '../signUp/signUp'
-
+import Footer from '../footer/footer'
 class HomePage extends React.Component<any, any>{
     constructor(props) {
         super(props)
 
         this.state = {
             showLogin: false,
-            showSignup: false
+            showSignup: false,
+            searchInput: ''
         }
     }
-    showLogin = () => {
 
-        this.setState({
-            showLogin: !this.state.showLogin
-        })
+    componentDidMount() {
+        sessionStorage.getItem("userId") ? this.props.history.push('/dashboard') : ''
     }
-    showSignup = () => {
-        this.setState({
-            showSignup: !this.state.showSignup
-        })
+    searchArticle = (event) => {
+        event.preventDefault();
+        localStorage.setItem("searchArticle", this.state.searchInput)
+        this.props.history.push('/searcharticle')
     }
     render() {
         return (
             <React.Fragment>
-                {this.state.showLogin && <Login showLogin={this.showLogin} />}
-                {this.state.showSignup && <SignUp showSignup={this.showSignup} showLogin={this.showLogin} />}
                 <header>
                     <div className='container-fluid'>
                         <div className='top-bar'>
@@ -51,10 +46,10 @@ class HomePage extends React.Component<any, any>{
                                         <a>Contact</a>
                                     </li>
                                     <li>
-                                        <a onClick={this.showLogin}>Member Login</a>
+                                        <a href='/login'>Member Login</a>
                                     </li>
                                     <li>
-                                        <a onClick={this.showSignup}>Sign Up</a>
+                                        <a href='/signup'>Sign Up</a>
                                     </li>
                                 </ul>
                             </div>
@@ -86,13 +81,14 @@ class HomePage extends React.Component<any, any>{
                                             type='text'
                                             placeholder='Tell us your essay title or topic'
                                             className='form-control'
+                                            onChange={(event) => this.setState({ searchInput: event.target.value })}
                                         />
-                                        <i className='fa fa-search'></i>
+                                        <i className='fa fa-search' ></i>
                                     </div>
                                     <span className='input-group-btn'>
-                                        <button className='btn' type='button'>
+                                        <button className='btn' type='button' onClick={this.searchArticle}>
                                             Start Writting
-                          </button>
+                                       </button>
                                     </span>
                                 </div>
                             </div>
@@ -371,67 +367,7 @@ class HomePage extends React.Component<any, any>{
                         </div>
                     </div>
                 </section>
-                <footer id='footer'>
-                    <div className='container'>
-                        <div className='row'>
-                            <div className='col-xs-12 col-sm-12'>
-                                <ul className='list-inline menu-footer'>
-                                    <li>
-                                        <a>Article Sample</a>
-                                    </li>
-                                    <li>
-                                        <a>Terms & Conditions</a>
-                                    </li>
-                                    <li>
-                                        <a>Privacy Policy</a>
-                                    </li>
-                                    <li>
-                                        <a>FAQs</a>
-                                    </li>
-                                    <li>
-                                        <a>Contact Us </a>
-                                    </li>
-                                </ul>
-                                <hr className='footer-line' />
-                            </div>
-                            <div className='col-xs-12 col-sm-12'>
-                                <p className='footer-copyright'>
-                                    © 2020 MagiWriter. All Right Reversed &nbsp;|&nbsp; Site By:{' '}
-                                    <a href='https://www.idigitalweb.in/'>iDigital Web</a>
-                                </p>
-                            </div>
-                            <div className='col-xs-12 col-sm-12'>
-                                <ul className='list-unstyled list-inline social'>
-                                    <li className='list-inline-item'>
-                                        <a>
-                                            <i className='fa fa-facebook'></i>
-                                        </a>
-                                    </li>
-                                    <li className='list-inline-item'>
-                                        <a>
-                                            <i className='fa fa-twitter'></i>
-                                        </a>
-                                    </li>
-                                    <li className='list-inline-item'>
-                                        <a>
-                                            <i className='fa fa-instagram'></i>
-                                        </a>
-                                    </li>
-                                    <li className='list-inline-item'>
-                                        <a>
-                                            <i className='fa fa-google-plus'></i>
-                                        </a>
-                                    </li>
-                                    <li className='list-inline-item'>
-                                        <a>
-                                            <i className='fa fa-linkedin'></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <Footer />
             </React.Fragment>
         )
     }

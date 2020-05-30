@@ -1,0 +1,56 @@
+
+#article-library {
+	padding: 3em 0;
+}
+#article-library .feature {
+	padding: 15px 15px 0px 15px;
+	min-height: 386px;
+}
+#article-library .feature:hover {
+	transform: translate(0);
+	transition: transform 0.5s;
+}
+.feature-plus-icon i {
+	color: #c8c8c8;
+	font-weight: 200;
+	font-size: 54px;
+	margin: 33% 0 12% 0;
+}
+#article-library .feature h3 a {
+	background: #2770c0;
+	color: white;
+	font-size: 18px;
+	padding: 10px 25px;
+	border-radius: 5px;
+}
+#article-library .feature h3 a:hover {
+	background: #3180d8;
+	text-decoration: none;
+}
+.edit-delete {
+	margin: 20px 0;
+}
+.edit-delete a {
+	padding: 6px;
+	width: 90px;
+	display: inline-block;
+	border-radius: 4px;
+}
+.edit-delete a.edit {
+	border: 1px solid #e5e5e5;
+	color: #2770c0;
+}
+.edit-delete a.delete {
+	border: 1px solid #e5e5e5;
+	color: #f1202a;
+}
+.edit-delete a.edit:hover {
+	background: #2770c0;
+	color: white;
+	border: 1px solid #2770c0;
+}
+.edit-delete a.delete:hover {
+	background: #fd2b35;
+	color: white;
+	border: 1px solid #fd2b35;
+}

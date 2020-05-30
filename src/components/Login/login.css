@@ -1,118 +1,166 @@
-* {
-    margin: 0px;
-    padding: 0px;
-    font-family: Helvetica, Arial, sans-serif;
-}
-
-/* Full-width input fields */
-input[type=text],
-input[type=password] {
-    padding: 12px 20px;
-    margin: 8px 26px;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    font-size: 16px;
-    width: 100%;
-    max-width: 320px;
-}
-
-
-
-/* Set a style for all buttons */
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px 58px 11px 58px;
-    margin: 8px 102px;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-button:hover {
-    opacity: 0.8;
-}
-
-.container {
-    width: 100%;
-    max-width: 400px;
-}
-
-
-
-/* Center the image and position the close button */
-.imgcontainer {
-    text-align: center;
-    margin: 24px 0 12px 0;
+.registration-wrapper {
+    width: 375px;
+    margin: 0 auto;
+    margin: 30px auto;
+    top: 26%;
+    box-shadow: 0px 1px 8px 1px rgba(0, 0, 0, 0.08);
+    border: 1px solid #ededed;
     position: relative;
 }
 
-.avatar {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+.registration-wrapper .logo-bg {
+    background: rgb(227, 227, 227);
+    position: relative;
+    text-align: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
-
-
-/* The Modal (background) */
-.modal {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    background-color: #00000085;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+.registration-wrapper .logo-bg img {
+    transform: rotate(180deg);
+    padding: 15px 2px 31px 0;
 }
 
-/* Modal Content Box */
-.modal-content {
-    background-color: #fefefe;
-    margin: 4% auto 15% auto;
-    border: 1px solid #888;
-    width: 100%;
-    max-width: 500px;
-    padding-bottom: 30px;
-}
-
-
-
-/* The Close Button (x) */
-.close {
+.registration-wrapper .close {
+    font-size: 27px;
+    color: rgb(0, 0, 0);
+    opacity: 0.7;
+    z-index: 999;
     position: absolute;
-    right: 25px;
-    top: 0;
-    color: #000;
-    font-size: 35px;
-    font-weight: bold;
+    right: 10px;
+    top: 4px;
 }
 
-.close:hover,
-.close:focus {
-    color: red;
+.login-form-1 {
+    padding: 15px 20px;
+}
+
+.login-form-1 h2#heading {
+    color: #0f56a3;
+    font-weight: 500;
+    font-size: 21px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.login-form-1 .form-group {
+    margin-bottom: 10px;
+}
+
+.login-form-1 .form-control {
+    padding: 8px 15px 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #151515;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    letter-spacing: 1px;
+    height: 45px;
+    -webkit-box-shadow: none;
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.login-form-1 .form-control:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #1057a5;
+    outline-width: 0;
+}
+
+.login-form-1 .btnSubmit {
+    font-weight: 500;
+    color: #fff;
+    background-color: #0062cc;
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
+    border: none;
     cursor: pointer;
 }
 
-/* Add Zoom Animation */
-.animate {
-    animation: zoom 0.6s
+.login-form-1 .f-pass {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: 100%;
 }
-.error-color{
-    color:red;
-    margin-left: 37px;
-}
-@keyframes zoom {
-    from {
-        transform: scale(0)
-    }
 
-    to {
-        transform: scale(1)
-    }
+.login-form-1 .f-pass .col-md-6 {
+    padding: 0;
+}
+
+.login-form-1 .f-pass .col-md-6:nth-child(2) {
+    text-align: right;
+}
+
+.login-form-1 .ForgetPwd {
+    color: #fd0314;
+    text-decoration: none;
+    padding-left: 206px;
+}
+
+.login-form-1 .ForgetPwd:hover {
+    text-decoration: underline;
+}
+
+.login-form-1 .divider-text {
+    margin-top: 5px;
+    margin-bottom: 16px;
+}
+
+.login-form-1 .divider-text span {
+    padding: 2px 15px;
+    font-size: 13px;
+}
+
+.login-form-1 p {
+    padding-top: 10px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.login-form-1 a {
+    font-size: 16px;
+}
+
+.login-form-1 .action-button {
+    width: 100%;
+    background: #1e5fa7;
+    font-weight: 500;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 0px 10px 5px;
+    float: right;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.login-form-1 .action-button:hover,
+.login-form-1 .action-button:focus {
+    background-color: #3180d8;
+}
+
+.login-form-1 .divider-text:after {
+    top: 65%;
+}
+
+.btn-facebook {
+    background-color: #405D9D;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.btn-facebook:hover {
+    background-color: #4e71be;
+    color: #fff;
 }

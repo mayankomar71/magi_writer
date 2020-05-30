@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import ErrorBoundary from './utils/ErrorBoundary';
 import AppRoutes from './appRouting';
-import { Loader2 } from "./components/general/Loader/loader";
-import StoreProvider from '../Store'
+import StoreProvider from '../Store';
+import {Loader2} from './general/loader/loader2';
+import '../assets/css/style.css'
 
 class App extends Component<any, any>{
     render() {
@@ -10,7 +11,7 @@ class App extends Component<any, any>{
             <StoreProvider>
 
                 <ErrorBoundary>
-                    <Loader2 name="Loader2" />
+                <Loader2 name = "Loader2" />
                     <AppRoutes />
                 </ErrorBoundary>
 

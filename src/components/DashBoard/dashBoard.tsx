@@ -1,6 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom'
+import Header from '../header/header'
+import Footer from '../footer/footer'
 import { loginValidation } from '../../utils/utility'
+import './dashboard.css'
+
+
 class DashBoard extends React.Component<any, any>{
 
     constructor(props) {
@@ -21,14 +26,46 @@ class DashBoard extends React.Component<any, any>{
     render() {
         return (
             <React.Fragment >
-                <div style={{ display: "flex" }}>
-                    <span>
-                        <h1 style={{ textAlign: "center" }}>Welcome to magi Writer</h1>
-                    </span>
-                    <span>
-                        <button onClick={this.logOut}>Logout</button>
-                    </span>
-                </div>
+                <Header />
+                <section id="article-library">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-4">
+                                <div className="feature">
+                                    <div className="feature-plus-icon"> <a href="#"><i className="fa fa-plus fa-4x"></i></a> </div>
+                                    <h3><a href="/writeArticle">Create New Essay</a></h3>
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="feature">
+                                    <div className="feature-icon"> <img src="../../../assets/images/essay-icon.png" /> </div>
+                                    <h5>Sensitive plagiarism checker</h5>
+                                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua... </p>
+                                    <div className="edit-delete">
+                                        <ul className="list-inline">
+                                            <li><a className="edit" href="#">Edit</a></li>
+                                            <li><a className="delete" href="#">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="feature">
+                                    <div className="feature-icon"> <img src="../../../assets/images/essay-icon.png" /> </div>
+                                    <h5>Sensitive plagiarism checker</h5>
+                                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua... </p>
+                                    <div className="edit-delete">
+                                        <ul className="list-inline">
+                                            <li><a className="edit" href="#">Edit</a></li>
+                                            <li><a className="delete" href="#">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <Footer />
 
 
             </React.Fragment>
