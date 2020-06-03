@@ -8,6 +8,8 @@ import { Store } from "../../Store";
 import validationRule from "../../utils/validationRules";
 import SimpleReactValidator from 'simple-react-validator';
 
+// eslint-disable-next-line
+
 class SearchArticle extends React.Component<any, any>{
     static contextType = Store;
     public validator: any;
@@ -15,7 +17,7 @@ class SearchArticle extends React.Component<any, any>{
         super(props)
 
         this.state = {
-            searchArticle: localStorage.getItem('searchArticle'),
+            searchArticle:'',
             foundArticles: [],
             title: ''
         }
@@ -33,6 +35,10 @@ class SearchArticle extends React.Component<any, any>{
         localStorage.removeItem('title')
         localStorage.removeItem('description')
         localStorage.getItem('searchArticle') ? getArticles(dispatch, body) : this.props.history.push('/')
+        this.setState({
+            searchArticle:localStorage.getItem('searchArticle'),
+            title:localStorage.getItem('searchArticle')
+        })
     }
     handleChange = (event) => {
         event.preventDefault();

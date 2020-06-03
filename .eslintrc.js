@@ -4,6 +4,14 @@ module.exports = {
     plugins: [
       '@typescript-eslint',
     ],
+    parserOptions: {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+          "jsx": true,
+          "tsx":true
+      }
+  },
     extends: [
       'eslint:recommended',
       'plugin:@typescript-eslint/recommended',

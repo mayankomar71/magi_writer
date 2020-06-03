@@ -9,6 +9,8 @@ import Header from '../header/header'
 import Footer from '../footer/footer'
 import '../Login/login.css'
 
+// eslint-disable-next-line
+
 class SignUp extends React.Component<any, any> {
     static contextType = Store;
     public validator: any;
