@@ -52,9 +52,8 @@ class SignUp extends React.Component<any, any> {
         this.validator.hideMessages();
         this.forceUpdate();
     };
-    componentDidMount()
-    {
-        sessionStorage.getItem("userId")?this.props.history.push('/dashboard'):''
+    componentDidMount() {
+        sessionStorage.getItem("userId") ? this.props.history.push('/dashboard') : ''
     }
     validateField = (name, value) => {
         let { dispatch } = this.context;

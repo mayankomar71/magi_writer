@@ -9,6 +9,8 @@ import './login.css'
 import Header from '../header/header'
 import Footer from '../footer/footer'
 
+// eslint-disable-next-line
+
 class Login extends React.Component<any, any>{
     static contextType = Store;
     public validator: any;
@@ -26,9 +28,8 @@ class Login extends React.Component<any, any>{
             },
         });
     }
-    componentDidMount()
-    {
-        sessionStorage.getItem("userId")?this.props.history.push('/dashboard'):''
+    componentDidMount() {
+        sessionStorage.getItem("userId") ? this.props.history.push('/dashboard') : ''
     }
     handleChange = (event: any) => {
         event.preventDefault();

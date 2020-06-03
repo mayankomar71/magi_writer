@@ -1,6 +1,8 @@
 import React from 'react';
 import './footer.css';
 
+// eslint-disable-next-line
+
 const Footer = () => {
     return (
         <React.Fragment>

@@ -2,6 +2,9 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import './homePage.css'
 import Footer from '../footer/footer'
+
+// eslint-disable-next-line
+
 class HomePage extends React.Component<any, any>{
     constructor(props) {
         super(props)

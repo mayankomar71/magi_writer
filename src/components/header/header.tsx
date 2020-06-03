@@ -2,6 +2,8 @@ import React from 'react';
 import './header.css'
 import { withRouter } from 'react-router-dom'
 
+// eslint-disable-next-line
+
 const Header = (props) => {
 
     const logOut = (event: any) => {

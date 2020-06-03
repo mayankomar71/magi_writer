@@ -7,6 +7,8 @@ import "react-quill/dist/quill.snow.css";
 import { modules, formats, } from "../../utils/utility";
 import './writeArticle.css';
 
+// eslint-disable-next-line
+
 class WriteArticle extends React.Component<any, any>{
     constructor(props) {
         super(props)
@@ -41,6 +43,7 @@ class WriteArticle extends React.Component<any, any>{
             title: this.state.tempTitle
         })
     }
+
     handlehtmlInput = (name: any, value: any) => {
         let updatedValue = value.replace(/(<([^>]+)>)/gi, "");
         if (updatedValue.length === 0) {
@@ -67,6 +70,15 @@ class WriteArticle extends React.Component<any, any>{
         this.setState({
             [name]: value
         })
+    }
+    handleDownload = (event) => {
+        event.preventDefault();
+        const element = document.createElement("a");
+        const file = new Blob([this.state.article.replace(/(<([^>]+)>)/gi, "")], { type: 'text/plain' });
+        element.href = URL.createObjectURL(file);
+        element.download = "article.txt";
+        document.body.appendChild(element);
+        element.click();
     }
     render() {
         let { editTitleFlag, article, title, wordCount } = this.state
@@ -107,7 +119,7 @@ class WriteArticle extends React.Component<any, any>{
                                             <li><a href="#"><i className="fa fa-file-text-o"></i> Check Plagiarism</a></li>
                                             <li><a href="#"><i className="fa fa-check-square-o"></i> Check Grammar</a></li>
                                             <li><a href="#"><i className="fa fa-save"></i> Save</a></li>
-                                            <li><a href="#"><i className="fa fa-download"></i> Download</a></li>
+                                            <li><a onClick={this.handleDownload}><i className="fa fa-download"></i> Download</a></li>
                                         </ul>
                                     </div>
                                 </div>

@@ -5,6 +5,7 @@ import Footer from '../footer/footer'
 import { loginValidation } from '../../utils/utility'
 import './dashboard.css'
 
+// eslint-disable-next-line
 
 class DashBoard extends React.Component<any, any>{
 
