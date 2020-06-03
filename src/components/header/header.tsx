@@ -9,6 +9,7 @@ const Header = (props) => {
     const logOut = (event: any) => {
         event.preventDefault();
         sessionStorage.clear();
+        localStorage.clear();
         props.history.push('/')
     }
     const userId = sessionStorage.getItem('userId')
@@ -21,12 +22,13 @@ const Header = (props) => {
                     </div>
                     <div className="pull-right">
                         <ul className="list-inline">
-                            <li><a href="#">My Essay</a></li>
-                            <li className="dropdown show-on"><i className="fa fa-user"></i> <a data-toggle="dropdown" className="dropdown-toggle"> My Account <span className="caret"></span></a>
+                            {!!userId && <li><a href="/dashboard">My Essay</a></li>}
+                            <li className="dropdown show-on"><i className="fa fa-user"></i> <a data-toggle="dropdown" className="dropdown-toggle">{sessionStorage.getItem('emailId')?sessionStorage.getItem('emailId')?.toUpperCase():"My Account"} <span className="caret"></span></a>
                                 <ul className="dropdown-menu">
                                     {!userId && <li><a href="/login"><i className="fa fa-sign-in"></i> Login</a></li>}
                                     {!userId && <li><a href="/signup"><i className="fa fa-lock"></i> Sign up</a></li>}
-                                    <li><a href="#"><i className="fa fa-phone"></i> Contact Us</a></li>
+                                    {!!userId && <li><a href="/dashboard"><i className="fa fa-lock"></i> DashBoard</a></li>}
+                                    <li><a href="/contactus"><i className="fa fa-phone"></i> Contact Us</a></li>
                                     {!!userId && <li><a onClick={logOut}><i className="fa fa-phone"></i>Log out</a></li>}
                                 </ul>
                             </li>

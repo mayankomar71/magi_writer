@@ -4,8 +4,12 @@ import HomePage from './components/Homepage/homePage'
 import Login from './components/Login/login'
 import Dashboard from './components/DashBoard/dashBoard'
 import SearchArticle from './components/searchArticle/searchArticle'
-import  WriteArticle from './components/writeArticle/writeArticle'
+import WriteArticle from './components/writeArticle/writeArticle'
 import SignUp from './components/signUp/signUp'
+import AboutUs from './components/aboutUs/aboutUs';
+import ContactUs from './components/contactUs/contactUs';
+
+// eslint-disable-next-line 
 
 class AppLoad extends Component<any, any> {
   render() {
@@ -19,6 +23,8 @@ class AppLoad extends Component<any, any> {
             <Route exact path="/searcharticle" component={() => <SearchArticle />} />
             <Route exact path="/writearticle" component={() => <WriteArticle />} />
             <Route exact path="/signup" component={() => <SignUp />} />
+            <Route exact path="/aboutus" component={() => <AboutUs />} />
+            <Route exact path="/contactus" component={() => <ContactUs />} />
             <Redirect from="*" to="/" />
           </Switch>
         </Router>

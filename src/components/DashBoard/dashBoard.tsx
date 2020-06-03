@@ -24,6 +24,11 @@ class DashBoard extends React.Component<any, any>{
     componentDidMount() {
         loginValidation(this.props.history);
     }
+    addNewArticle=()=>
+    {
+      localStorage.clear()
+      this.props.history.push('/writeArticle')
+    }
     render() {
         return (
             <React.Fragment >
@@ -34,7 +39,7 @@ class DashBoard extends React.Component<any, any>{
                             <div className="col-md-4">
                                 <div className="feature">
                                     <div className="feature-plus-icon"> <a href="#"><i className="fa fa-plus fa-4x"></i></a> </div>
-                                    <h3><a href="/writeArticle">Create New Essay</a></h3>
+                                    <h3><a  onClick={()=>this.addNewArticle()}>Create New Essay</a></h3>
                                 </div>
                             </div>
                             <div className="col-md-4">

@@ -12,8 +12,9 @@ export const loginAction = (dispatch: any, params: any, history:any) => {
         type: actionType.LOGINACTION,
         payload: response
       })
-      sessionStorage.setItem('userId',response.data.data[0].email)
+      sessionStorage.setItem('userId',response.data.data[0].id)
       sessionStorage.setItem('userStatus',response.data.data[0].status);
+      sessionStorage.setItem('emailId',response.data.data[0].email.split("@")[0])
       history.push('/dashboard')
     })
     .catch((error)=> { 

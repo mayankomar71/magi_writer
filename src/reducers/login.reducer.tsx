@@ -1,4 +1,5 @@
 import actionType from '../actions/actionTypes';
+// eslint-disable-next-line
 
 export const loginReducerInitials = {
    userExists:false

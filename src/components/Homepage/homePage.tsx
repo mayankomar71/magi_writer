@@ -43,10 +43,10 @@ class HomePage extends React.Component<any, any>{
                                         <a>My Essays</a>
                                     </li>
                                     <li>
-                                        <a>About</a>
+                                        <a href="/aboutus">About</a>
                                     </li>
                                     <li>
-                                        <a>Contact</a>
+                                        <a href="/contactus">Contact</a>
                                     </li>
                                     <li>
                                         <a href='/login'>Member Login</a>

@@ -6,23 +6,35 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { modules, formats, } from "../../utils/utility";
 import './writeArticle.css';
-
+import { Store } from "../../Store";
+import { saveArticle } from '../../actions/searchActions';
+import { withRouter } from 'react-router-dom'
 // eslint-disable-next-line
 
 class WriteArticle extends React.Component<any, any>{
+    static contextType = Store;
     constructor(props) {
         super(props)
 
         this.state = {
-            article: localStorage.getItem('description') ? localStorage.getItem('description') : '',
-            title: localStorage.getItem('title') ? localStorage.getItem('title') : 'Edit Title',
+            article: '',
+            title: '',
             editTitleFlag: false,
             wordCount: 0,
-            tempTitle: ''
+            tempTitle: '',
+            descriptionId: null
         }
     }
+    componentDidMount() {
+        this.setState({
+            article: localStorage.getItem('description') ? localStorage.getItem('description') : '',
+            title: localStorage.getItem('title') ? localStorage.getItem('title') : 'Edit Title'
+        })
+    }
     editTitle = (event) => {
+
         event.preventDefault();
+
         this.setState({
             editTitleFlag: true,
             tempTitle: this.state.title,
@@ -30,11 +42,13 @@ class WriteArticle extends React.Component<any, any>{
     }
     saveTitle = (event) => {
         event.preventDefault();
+
         this.setState({
             editTitleFlag: false,
             tempTitle: '',
             title: !this.state.title ? "Edit Title" : this.state.title
         })
+
     }
     cancelEdit = (event) => {
         event.preventDefault();
@@ -63,6 +77,7 @@ class WriteArticle extends React.Component<any, any>{
             });
         }
     }
+
     handleChange = (event) => {
         event.preventDefault();
         let name = event.target.name;
@@ -73,12 +88,61 @@ class WriteArticle extends React.Component<any, any>{
     }
     handleDownload = (event) => {
         event.preventDefault();
-        const element = document.createElement("a");
-        const file = new Blob([this.state.article.replace(/(<([^>]+)>)/gi, "")], { type: 'text/plain' });
-        element.href = URL.createObjectURL(file);
-        element.download = "article.txt";
-        document.body.appendChild(element);
-        element.click();
+        if (!sessionStorage.getItem('userId')) {
+            this.props.history.push('/login')
+        }
+        else {
+            if(this.state.article.replace(/(<([^>]+)>)/gi, "").length > 0)
+            {
+                const element = document.createElement("a");
+                const file = new Blob([this.state.article.replace(/(<([^>]+)>)/gi, "")], { type: 'text/plain' });
+                element.href = URL.createObjectURL(file);
+                element.download = "article.txt";
+                document.body.appendChild(element);
+                element.click();
+            }
+            else
+            {
+                alert("Please write something to download")
+            }
+           
+        }
+
+    }
+    saveArticle = (event) => {
+        event.preventDefault();
+        !sessionStorage.getItem('userId') ? this.props.history.push('/login') : ''
+        if(this.state.article.replace(/(<([^>]+)>)/gi, "").length > 0 && this.state.title.length > 0 && !!sessionStorage.getItem('userId'))
+        {
+            let { dispatch } = this.context;
+            let body = {
+                "userId": sessionStorage.getItem('userId'),
+                "titleName": this.state.title,
+                "description": this.state.article.replace(/(<([^>]+)>)/gi, "").length > 0 ? this.state.article : ''
+            }
+         saveArticle(dispatch, body)
+        }
+        if(!!sessionStorage.getItem('userId') &&  !this.state.article.replace(/(<([^>]+)>)/gi, "") && !this.state.title ) {
+            alert('Article description or title is empty')
+        }
+
+      
+
+    }
+    componentWillReceiveProps(_nextProps, nextContext) {
+        let { state } = nextContext
+        if (state.searchArticleReducer.savedArticle && state.searchArticleReducer.savedArticle.length > 0) {
+            this.setState({
+                article: state.searchArticleReducer.savedArticle[0].description,
+                title: state.searchArticleReducer.savedArticle[0].titel,
+                descriptionId: state.searchArticleReducer.savedArticle[0].descriptionId
+            })
+            alert('Article Saved SuccessFully')
+            localStorage.setItem("description", state.searchArticleReducer.savedArticle[0].description)
+            localStorage.setItem('title', state.searchArticleReducer.savedArticle[0].titel)
+            localStorage.setItem('descriptionId', state.searchArticleReducer.savedArticle[0].descriptionId)
+
+        }
     }
     render() {
         let { editTitleFlag, article, title, wordCount } = this.state
@@ -118,7 +182,7 @@ class WriteArticle extends React.Component<any, any>{
                                         <ul className="nav">
                                             <li><a href="#"><i className="fa fa-file-text-o"></i> Check Plagiarism</a></li>
                                             <li><a href="#"><i className="fa fa-check-square-o"></i> Check Grammar</a></li>
-                                            <li><a href="#"><i className="fa fa-save"></i> Save</a></li>
+                                            <li><a onClick={this.saveArticle}><i className="fa fa-save"></i> Save</a></li>
                                             <li><a onClick={this.handleDownload}><i className="fa fa-download"></i> Download</a></li>
                                         </ul>
                                     </div>
@@ -135,4 +199,4 @@ class WriteArticle extends React.Component<any, any>{
 
 }
 
-export default WriteArticle
+export default withRouter(WriteArticle)

@@ -1,0 +1,26 @@
+#cms-banner-bg {
+	background: url(../../assets/images/banner-bg.jpg) center no-repeat;
+	background-size: cover;
+}
+.inner-p-title {
+	text-align: center;
+	padding: 12em 0;
+}
+.inner-p-title h3 {
+	font-size: 3.5em;
+	color: #ffffff;
+	font-weight: 500;
+}
+#about-us{
+    padding: 5em 0 4em 0;	
+}
+#about-us img{
+    margin-top:10px;	
+}
+.abt-con p {
+	font-size: 15px;
+	line-height: 24px;
+	padding-bottom: 15px;
+	font-weight: 400;
+	color: #676666;
+}

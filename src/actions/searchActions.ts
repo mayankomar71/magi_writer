@@ -22,3 +22,24 @@ export const  getArticles = (dispatch: any, params: any) => {
         })
     })
   }
+
+  export const saveArticle =(dispatch:any,params:any)=>
+  {
+    let url="http://ec2-13-234-75-34.ap-south-1.compute.amazonaws.com:8088/api/user/addArticalDetails";
+    loaderService.show("Loader2")
+    axios.post(url,params)
+    .then((response: any) => {
+      loaderService.hide("Loader2")
+      dispatch({
+        type: actionType.SAVEARTICLES,
+        payload: response
+      })
+    })
+    .catch((error)=> { 
+      loaderService.hide("Loader2")
+      dispatch({
+        type:actionType.SAVEARTICLES,
+        payload:error.response
+      })
+  })
+  }
