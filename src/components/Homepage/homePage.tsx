@@ -30,7 +30,7 @@ class HomePage extends React.Component<any, any>{
                             <div className='header-logo'>
                                 <div className='logo-bg'>
                                     <a>
-                                        <img src={'../../../assets/images/logo.png'} alt='' />
+                                        <img src={'../../assets/images/logo.png'} alt='' />
                                     </a>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@ class HomePage extends React.Component<any, any>{
                 <section
                     id='main-banner'
                     style={{
-                        background: "url('../../../assets/images/banner-bg.jpg')"
+                        background: "url('../../assets/images/banner-bg.jpg')"
                     }}
                 >
                     <div className='container'>
@@ -109,7 +109,7 @@ class HomePage extends React.Component<any, any>{
                                 <div className='feature'>
                                     <div className='feature-icon'>
                                         <img
-                                            src={'../../../assets/images/content-topic.png'}
+                                            src={'../../assets/images/content-topic.png'}
                                             alt=''
                                         />
                                     </div>
@@ -125,7 +125,7 @@ class HomePage extends React.Component<any, any>{
                                 <div className='feature'>
                                     <div className='feature-icon'>
                                         <img
-                                            src={'../../../assets/images/grammer-check.png'}
+                                            src={'../../assets/images/grammer-check.png'}
                                             alt=''
                                         />
                                     </div>
@@ -141,7 +141,7 @@ class HomePage extends React.Component<any, any>{
                                 <div className='feature'>
                                     <div className='feature-icon'>
                                         <img
-                                            src={'../../../assets/images/essay-icon.png'}
+                                            src={'../../assets/images/essay-icon.png'}
                                             alt=''
                                         />
                                     </div>
@@ -156,7 +156,7 @@ class HomePage extends React.Component<any, any>{
                             <div className='col-md-4'>
                                 <div className='feature'>
                                     <div className='feature-icon'>
-                                        <img src={'../../../assets/images/words.png'} alt='' />
+                                        <img src={'../../assets/images/words.png'} alt='' />
                                     </div>
                                     <h5>Auto writing suggestions</h5>
                                     <p>
@@ -170,7 +170,7 @@ class HomePage extends React.Component<any, any>{
                                 <div className='feature'>
                                     <div className='feature-icon'>
                                         <img
-                                            src={'../../../assets/images/essay-icon.png'}
+                                            src={'../../assets/images/essay-icon.png'}
                                             alt=''
                                         />
                                     </div>
@@ -186,7 +186,7 @@ class HomePage extends React.Component<any, any>{
                                 <div className='feature'>
                                     <div className='feature-icon'>
                                         <img
-                                            src={'../../../assets/images/content-topic.png'}
+                                            src={'../../assets/images/content-topic.png'}
                                             alt=''
                                         />
                                     </div>
@@ -211,7 +211,7 @@ class HomePage extends React.Component<any, any>{
                                 <div className='single-stories'>
                                     <div className='stories-img'>
                                         <img
-                                            src={'../../../assets/images/stories-1.jpg'}
+                                            src={'../../assets/images/stories-1.jpg'}
                                             alt=''
                                         />
                                     </div>
@@ -239,7 +239,7 @@ class HomePage extends React.Component<any, any>{
                                     </div>
                                     <div className='stories-img'>
                                         <img
-                                            src={'../../../assets/images/stories-2.jpg'}
+                                            src={'../../assets/images/stories-2.jpg'}
                                             alt=''
                                         />
                                     </div>
@@ -249,7 +249,7 @@ class HomePage extends React.Component<any, any>{
                                 <div className='single-stories'>
                                     <div className='stories-img'>
                                         <img
-                                            src={'../../../assets/images/stories-3.jpg'}
+                                            src={'../../assets/images/stories-3.jpg'}
                                             alt=''
                                         />
                                     </div>

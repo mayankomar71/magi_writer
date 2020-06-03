@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ErrorBoundary from './utils/ErrorBoundary';
 import AppRoutes from './appRouting';
-import StoreProvider from '../Store';
+import StoreProvider from './Store';
 import {Loader2} from './general/loader/loader2';
-import '../assets/css/style.css'
+import '../src/assets/css/style.css'
 
 class App extends Component<any, any>{
     render() {

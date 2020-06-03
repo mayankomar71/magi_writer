@@ -15,7 +15,7 @@ const Header = (props) => {
             <header className="header_inner">
                 <div className="top-bar">
                     <div className="header-logo">
-                        <div><a href="index.html"><img src="../../../assets/images/logo.png" alt="" /></a></div>
+                        <div><a href="index.html"><img src="../../assets/images/logo.png" alt="" /></a></div>
                     </div>
                     <div className="pull-right">
                         <ul className="list-inline">

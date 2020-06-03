@@ -3,7 +3,7 @@ import validationRule from "../../utils/validationRules";
 import SimpleReactValidator from 'simple-react-validator';
 import Messages from "../../utils/messages";
 import { loginAction } from '../../actions/useractions'
-import { Store } from "../../../Store";
+import { Store } from "../../Store";
 import { withRouter } from 'react-router-dom'
 import './login.css'
 import Header from '../header/header'
@@ -79,7 +79,7 @@ class Login extends React.Component<any, any>{
                 <Header />
                 <div className="registration-wrapper">
                     <button type="button" className="close" aria-hidden="true">×</button>
-                    <div className="logo-bg"><img src="../../../assets/images/logo.png" alt="" /></div>
+                    <div className="logo-bg"><img src="../../assets/images/logo.png" alt="" /></div>
                     <div className="login-form-1">
                         <h2 id="heading">Login</h2>
                         <div> <a href="" className="btn btn-block btn-facebook"> <i className="fa fa-facebook"></i>   Login via facebook</a> </div>

@@ -4,7 +4,7 @@ import Header from '../header/header'
 import Footer from '../footer/footer'
 import { withRouter } from 'react-router-dom'
 import { getArticles } from '../../actions/searchActions'
-import { Store } from "../../../Store";
+import { Store } from "../../Store";
 import validationRule from "../../utils/validationRules";
 import SimpleReactValidator from 'simple-react-validator';
 

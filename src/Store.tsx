@@ -1,5 +1,5 @@
 import React from 'react';
- import {rootReducerCombined,initialStateCombined} from './src/reducers/rootReducer';
+ import {rootReducerCombined,initialStateCombined} from './reducers/rootReducer';
 
 export const Store = React.createContext({});
 const { Provider } = Store;

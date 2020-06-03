@@ -3,7 +3,7 @@ import validationRule from "../../utils/validationRules";
 import SimpleReactValidator from 'simple-react-validator';
 import Messages from "../../utils/messages";
 import { checkEmail, signupAction } from '../../actions/useractions'
-import { Store } from "../../../Store";
+import { Store } from "../../Store";
 import { withRouter } from 'react-router-dom'
 import Header from '../header/header'
 import Footer from '../footer/footer'

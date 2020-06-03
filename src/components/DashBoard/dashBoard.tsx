@@ -38,7 +38,7 @@ class DashBoard extends React.Component<any, any>{
                             </div>
                             <div className="col-md-4">
                                 <div className="feature">
-                                    <div className="feature-icon"> <img src="../../../assets/images/essay-icon.png" /> </div>
+                                    <div className="feature-icon"> <img src="../../assets/images/essay-icon.png" /> </div>
                                     <h5>Sensitive plagiarism checker</h5>
                                     <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua... </p>
                                     <div className="edit-delete">
@@ -51,7 +51,7 @@ class DashBoard extends React.Component<any, any>{
                             </div>
                             <div className="col-md-4">
                                 <div className="feature">
-                                    <div className="feature-icon"> <img src="../../../assets/images/essay-icon.png" /> </div>
+                                    <div className="feature-icon"> <img src="../../assets/images/essay-icon.png" /> </div>
                                     <h5>Sensitive plagiarism checker</h5>
                                     <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua... </p>
                                     <div className="edit-delete">
