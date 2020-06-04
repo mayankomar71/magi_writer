@@ -141,7 +141,7 @@ class SearchArticle extends React.Component<any, any>{
                                         {foundArticles.map((articles, index) => {
                                             return (
                                                 <div className="slide-content" key={index}>
-                                                    <p>{articles.description}</p>
+                                                    <p>{articles.description.replace(/(<([^>]+)>)/gi, "")}</p>
                                                     <h2 className="article-select-btn"><a onClick={() => this.writeArticle(articles)}>Write with this</a></h2>
                                                 </div>
                                             )
