@@ -81,13 +81,16 @@ class SearchArticle extends React.Component<any, any>{
         if(Object.keys(article).length>0)
         {
             localStorage.setItem('description',article.description)
-            localStorage.setItem('descriptionId',article.descriptionId)
-            localStorage.setItem('titleId',article.titelId)
+            localStorage.setItem('descriptionId','0')
+            localStorage.setItem('titleId','0')
             this.hideValidationMessage()
             this.props.history.push('/writearticle')
         }
         else{
+            localStorage.setItem('descriptionId','0')
+            localStorage.setItem('titleId','0')
             this.props.history.push('/writearticle')
+            
         }
         
 
