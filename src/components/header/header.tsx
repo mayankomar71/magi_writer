@@ -12,6 +12,12 @@ const Header = (props) => {
         localStorage.clear();
         props.history.push('/')
     }
+    const gotoDashboard=(event)=>
+    {
+        event.preventDefault();
+        localStorage.clear();
+        props.history.push('/dashboard')
+    }
     const userId = sessionStorage.getItem('userId')
     return (
         <React.Fragment>
@@ -22,7 +28,7 @@ const Header = (props) => {
                     </div>
                     <div className="pull-right">
                         <ul className="list-inline">
-                            {!!userId && <li><a href="/dashboard">My Essay</a></li>}
+                            {!!userId && <li><a onClick={gotoDashboard}>My Essay</a></li>}
                             {<li><a href="/">HomePage</a></li>}
                             <li className="dropdown show-on"><i className="fa fa-user"></i> <a data-toggle="dropdown" className="dropdown-toggle">{sessionStorage.getItem('emailId')?sessionStorage.getItem('emailId')?.toUpperCase():"My Account"} <span className="caret"></span></a>
                                 <ul className="dropdown-menu">

@@ -29,6 +29,7 @@ export const  getArticles = (dispatch: any, params: any) => {
     loaderService.show("Loader2")
     axios.post(url,params)
     .then((response: any) => {
+      localStorage.clear()
       loaderService.hide("Loader2")
       dispatch({
         type: actionType.SAVEARTICLES,

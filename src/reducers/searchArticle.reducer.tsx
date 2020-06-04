@@ -19,8 +19,6 @@ function SearchArticleReducer(state = searchArticlesInitials, action: any) {
         case actionType.SAVEARTICLES:
             return {
                 ...state,
-                savedArticle: action.payload && Object.keys(action.payload).length > 0 && Object.keys(action.payload.data).length > 0 ? action.payload.data.data.articalDetailsArr : [],
-                foundArticles: []
             }
         case actionType.GETUSERARTICLES:
             return {

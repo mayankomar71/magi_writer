@@ -121,29 +121,14 @@ class WriteArticle extends React.Component<any, any>{
             }
             saveArticle(dispatch, body, this.props.history)
         }
-        if ((!this.state.article.replace(/(<([^>]+)>)/gi, "") || !this.state.title || this.state.title === "Edit Title") && !!sessionStorage.getItem('userId')) {
+        else if ((!this.state.article.replace(/(<([^>]+)>)/gi, "") || !this.state.title || this.state.title === "Edit Title") && !!sessionStorage.getItem('userId')) {
             alert('Article description or title is empty')
         }
 
 
 
     }
-    componentWillReceiveProps(_nextProps, nextContext) {
-        let { state } = nextContext
-        if (state.searchArticleReducer.savedArticle && state.searchArticleReducer.savedArticle.length > 0) {
-            this.setState({
-                article: state.searchArticleReducer.savedArticle[0].description,
-                title: state.searchArticleReducer.savedArticle[0].titel,
-                descriptionId: state.searchArticleReducer.savedArticle[0].descriptionId
-            })
-            alert('Article Saved SuccessFully')
-            localStorage.setItem("description", state.searchArticleReducer.savedArticle[0].description)
-            localStorage.setItem('title', state.searchArticleReducer.savedArticle[0].titel)
-            localStorage.setItem('descriptionId', state.searchArticleReducer.savedArticle[0].descriptionId)
-            localStorage.setItem('titleId', state.searchArticleReducer.savedArticle[0].titelId)
-
-        }
-    }
+   
     render() {
         let { editTitleFlag, article, title, wordCount } = this.state
         return (

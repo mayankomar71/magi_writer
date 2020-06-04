@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import Header from '../header/header'
 import Footer from '../footer/footer'
-import { loginValidation } from '../../utils/utility'
 import { getuserArticles, deleteArticle } from '../../actions/searchActions'
 import { Store } from "../../Store";
 import './dashboard.css'
@@ -23,8 +22,8 @@ class DashBoard extends React.Component<any, any>{
         this.props.history.push('/')
     }
     componentDidMount() {
-        loginValidation(this.props.history);
-        localStorage.clear()
+        sessionStorage.getItem('userId')?(localStorage.getItem('description')||localStorage.getItem('title')?this.props.history.push('/writeArticle'):''):this.props.history.push('/')
+        localStorage.getItem('description')||localStorage.getItem('title')?'':localStorage.clear()
         let { dispatch } = this.context;
         let userId = sessionStorage.getItem('userId')
         let body = {
