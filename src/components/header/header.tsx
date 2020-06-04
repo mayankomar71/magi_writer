@@ -18,18 +18,19 @@ const Header = (props) => {
             <header className="header_inner">
                 <div className="top-bar">
                     <div className="header-logo">
-                        <div><a href="index.html"><img src="../../assets/images/logo.png" alt="" /></a></div>
+                        <div><a href="/"><img src="../../assets/images/logo.png" alt="" /></a></div>
                     </div>
                     <div className="pull-right">
                         <ul className="list-inline">
                             {!!userId && <li><a href="/dashboard">My Essay</a></li>}
+                            {<li><a href="/">HomePage</a></li>}
                             <li className="dropdown show-on"><i className="fa fa-user"></i> <a data-toggle="dropdown" className="dropdown-toggle">{sessionStorage.getItem('emailId')?sessionStorage.getItem('emailId')?.toUpperCase():"My Account"} <span className="caret"></span></a>
                                 <ul className="dropdown-menu">
                                     {!userId && <li><a href="/login"><i className="fa fa-sign-in"></i> Login</a></li>}
                                     {!userId && <li><a href="/signup"><i className="fa fa-lock"></i> Sign up</a></li>}
                                     {!!userId && <li><a href="/dashboard"><i className="fa fa-lock"></i> DashBoard</a></li>}
                                     <li><a href="/contactus"><i className="fa fa-phone"></i> Contact Us</a></li>
-                                    {!!userId && <li><a onClick={logOut}><i className="fa fa-phone"></i>Log out</a></li>}
+                                    {!!userId && <li><a onClick={logOut}><i className="fa fa-sign-out"></i>Log out</a></li>}
                                 </ul>
                             </li>
                         </ul>

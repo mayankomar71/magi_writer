@@ -29,16 +29,25 @@ class SearchArticle extends React.Component<any, any>{
 
     componentDidMount() {
         let { dispatch } = this.context
-        let body = {
-            "titleName": localStorage.getItem('searchArticle')
+
+        if(!!localStorage.getItem('searchArticle'))
+        {
+            let body = {
+                "titleName": localStorage.getItem('searchArticle')
+            }
+            localStorage.removeItem('title')
+            localStorage.removeItem('description')
+            localStorage.getItem('searchArticle') ? getArticles(dispatch, body) : this.props.history.push('/')
+            this.setState({
+                searchArticle:localStorage.getItem('searchArticle'),
+                title:localStorage.getItem('searchArticle')
+            })
         }
-        localStorage.removeItem('title')
-        localStorage.removeItem('description')
-        localStorage.getItem('searchArticle') ? getArticles(dispatch, body) : this.props.history.push('/')
-        this.setState({
-            searchArticle:localStorage.getItem('searchArticle'),
-            title:localStorage.getItem('searchArticle')
-        })
+        else
+        {
+            this.props.history.push('/')
+        }
+        
     }
     handleChange = (event) => {
         event.preventDefault();
@@ -63,15 +72,25 @@ class SearchArticle extends React.Component<any, any>{
         }
     }
 
-    writeArticle = (description) => {
+    writeArticle = (article) => {
         if (!this.validator.allValid()) {
             this.showValidationMessage();
             return;
         }
         localStorage.setItem('title', this.state.title)
-        description.length > 0 ? localStorage.setItem('description', description) : ''
-        this.hideValidationMessage()
-        this.props.history.push('/writearticle')
+        if(Object.keys(article).length>0)
+        {
+            localStorage.setItem('description',article.description)
+            localStorage.setItem('descriptionId',article.descriptionId)
+            localStorage.setItem('titleId',article.titelId)
+            this.hideValidationMessage()
+            this.props.history.push('/writearticle')
+        }
+        else{
+            this.props.history.push('/writearticle')
+        }
+        
+
 
     }
     /* show validation messages for all */
@@ -120,7 +139,7 @@ class SearchArticle extends React.Component<any, any>{
                                             return (
                                                 <div className="slide-content" key={index}>
                                                     <p>{articles.description}</p>
-                                                    <h2 className="article-select-btn"><a onClick={() => this.writeArticle(articles.description)}>Write with this</a></h2>
+                                                    <h2 className="article-select-btn"><a onClick={() => this.writeArticle(articles)}>Write with this</a></h2>
                                                 </div>
                                             )
                                         })}
@@ -129,7 +148,7 @@ class SearchArticle extends React.Component<any, any>{
 
                                 </div>
                             </div>}
-                            <div className="own-eassy-btn"><a onClick={() => this.writeArticle("")}>Write my own</a></div>
+                            <div className="own-eassy-btn"><a onClick={() => this.writeArticle({})}>Write my own</a></div>
                         </div>
                     </div>
                 </section>

@@ -16,13 +16,23 @@ class HomePage extends React.Component<any, any>{
         }
     }
 
-    componentDidMount() {
-        sessionStorage.getItem("userId") ? this.props.history.push('/dashboard') : ''
-    }
     searchArticle = (event) => {
         event.preventDefault();
-        localStorage.setItem("searchArticle", this.state.searchInput)
-        this.props.history.push('/searcharticle')
+        if(!this.state.searchInput)
+        {
+            alert('Please enter the article you want to write')
+        }
+        else{
+            
+            localStorage.setItem("searchArticle", this.state.searchInput)
+            this.props.history.push('/searcharticle')
+            
+        }
+    
+    }
+    componentDidMount()
+    {
+        localStorage.clear();
     }
     render() {
         return (
@@ -39,21 +49,22 @@ class HomePage extends React.Component<any, any>{
                             </div>
                             <div className='pull-right'>
                                 <ul className='list-inline'>
-                                    <li>
-                                        <a>My Essays</a>
-                                    </li>
+                                    {!!sessionStorage.getItem('userId') && <li>
+                                        <a href="/dashboard">My Essays</a>
+                                    </li>}
                                     <li>
                                         <a href="/aboutus">About</a>
                                     </li>
                                     <li>
                                         <a href="/contactus">Contact</a>
                                     </li>
-                                    <li>
+                                    {!!sessionStorage.getItem('userId')&& <li><a>Welcome {!!sessionStorage.getItem("emailId")?sessionStorage.getItem("emailId")?.toUpperCase():''}</a></li>}
+                                    {!sessionStorage.getItem('userId') && <li>
                                         <a href='/login'>Member Login</a>
-                                    </li>
-                                    <li>
+                                    </li>}
+                                    {!sessionStorage.getItem('userId') && <li>
                                         <a href='/signup'>Sign Up</a>
-                                    </li>
+                                    </li>}
                                 </ul>
                             </div>
                         </div>

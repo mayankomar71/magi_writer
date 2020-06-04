@@ -92,8 +92,7 @@ class WriteArticle extends React.Component<any, any>{
             this.props.history.push('/login')
         }
         else {
-            if(this.state.article.replace(/(<([^>]+)>)/gi, "").length > 0)
-            {
+            if (this.state.article.replace(/(<([^>]+)>)/gi, "").length > 0) {
                 const element = document.createElement("a");
                 const file = new Blob([this.state.article.replace(/(<([^>]+)>)/gi, "")], { type: 'text/plain' });
                 element.href = URL.createObjectURL(file);
@@ -101,32 +100,32 @@ class WriteArticle extends React.Component<any, any>{
                 document.body.appendChild(element);
                 element.click();
             }
-            else
-            {
+            else {
                 alert("Please write something to download")
             }
-           
+
         }
 
     }
     saveArticle = (event) => {
         event.preventDefault();
         !sessionStorage.getItem('userId') ? this.props.history.push('/login') : ''
-        if(this.state.article.replace(/(<([^>]+)>)/gi, "").length > 0 && this.state.title.length > 0 && !!sessionStorage.getItem('userId'))
-        {
+        if (this.state.article.replace(/(<([^>]+)>)/gi, "").length > 0 && (this.state.title.length > 0 && this.state.title !== "Edit Title") && !!sessionStorage.getItem('userId')) {
             let { dispatch } = this.context;
             let body = {
                 "userId": sessionStorage.getItem('userId'),
                 "titleName": this.state.title,
-                "description": this.state.article.replace(/(<([^>]+)>)/gi, "").length > 0 ? this.state.article : ''
+                "description": this.state.article.replace(/(<([^>]+)>)/gi, "").length > 0 ? this.state.article : '',
+                "titelId": (localStorage.getItem("edit") && localStorage.getItem("edit") === "true") || (localStorage.getItem('title') === this.state.title) ? localStorage.getItem('titleId') : "0",
+                "descriptionId": localStorage.getItem('description') !== this.state.article.replace(/(<([^>]+)>)/gi, "") || localStorage.getItem('title') !== this.state.title ? ((localStorage.getItem("edit") && localStorage.getItem("edit") === "true") ? localStorage.getItem('descriptionId') : "0") : localStorage.getItem('descriptionId'),
             }
-         saveArticle(dispatch, body)
+            saveArticle(dispatch, body, this.props.history)
         }
-        if(!!sessionStorage.getItem('userId') &&  !this.state.article.replace(/(<([^>]+)>)/gi, "") && !this.state.title ) {
+        if ((!this.state.article.replace(/(<([^>]+)>)/gi, "") || !this.state.title || this.state.title === "Edit Title") && !!sessionStorage.getItem('userId')) {
             alert('Article description or title is empty')
         }
 
-      
+
 
     }
     componentWillReceiveProps(_nextProps, nextContext) {
@@ -141,6 +140,7 @@ class WriteArticle extends React.Component<any, any>{
             localStorage.setItem("description", state.searchArticleReducer.savedArticle[0].description)
             localStorage.setItem('title', state.searchArticleReducer.savedArticle[0].titel)
             localStorage.setItem('descriptionId', state.searchArticleReducer.savedArticle[0].descriptionId)
+            localStorage.setItem('titleId', state.searchArticleReducer.savedArticle[0].titelId)
 
         }
     }
