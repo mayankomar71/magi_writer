@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom'
 import Header from '../header/header'
 import Footer from '../footer/footer'
 import '../Login/login.css'
+import Popup from '../../general/popUp/popUp'
 
 // eslint-disable-next-line
 
@@ -22,7 +23,8 @@ class SignUp extends React.Component<any, any> {
             password: '',
             userExist: false,
             confirmPassword: '',
-            confirmPasswordError: false
+            confirmPasswordError: false,
+            signupSuccess: false
         }
         this.validator = new SimpleReactValidator({
             element: message => <div className="error-color">{message}</div>,
@@ -112,11 +114,17 @@ class SignUp extends React.Component<any, any> {
                 userExist: true
             })
         }
-        else {
+        else if (state.loginReducer.signupSuccess) {
+            this.setState({
+                signupSuccess: true
+            })
+        }
+        else if (state.loginReducer.userExists === false) {
             this.setState({
                 userExist: false
             })
         }
+
     }
     onSubmit = (event: any) => {
         event.preventDefault();
@@ -153,11 +161,26 @@ class SignUp extends React.Component<any, any> {
             return false
         }
     };
+    navigatetoLogin = (event) => {
+        event.preventDefault();
+        this.setState({
+            signupSuccess: false
+        })
+        this.props.history.push('/login')
+    }
     render() {
         const { email, password, userExist, confirmPassword, confirmPasswordError } = this.state
         return (
 
             <React.Fragment>
+                {this.state.signupSuccess && (
+                    <Popup
+                        continueCallBack={this.navigatetoLogin}
+                        popupText={"Signup Successfull"}
+                        showContinue={true}
+                        continueText={"Continue"}
+                    />
+                )}
                 <Header />
                 <div className="registration-wrapper">
                     <div className="logo-bg"><img src="../../assets/images/logo.png" alt="" /></div>

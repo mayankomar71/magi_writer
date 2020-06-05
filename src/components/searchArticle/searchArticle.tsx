@@ -17,7 +17,7 @@ class SearchArticle extends React.Component<any, any>{
         super(props)
 
         this.state = {
-            searchArticle:'',
+            searchArticle: '',
             foundArticles: [],
             title: ''
         }
@@ -30,8 +30,7 @@ class SearchArticle extends React.Component<any, any>{
     componentDidMount() {
         let { dispatch } = this.context
 
-        if(!!localStorage.getItem('searchArticle'))
-        {
+        if (!!localStorage.getItem('searchArticle')) {
             let body = {
                 "titleName": localStorage.getItem('searchArticle')
             }
@@ -39,15 +38,14 @@ class SearchArticle extends React.Component<any, any>{
             localStorage.removeItem('description')
             localStorage.getItem('searchArticle') ? getArticles(dispatch, body) : this.props.history.push('/')
             this.setState({
-                searchArticle:localStorage.getItem('searchArticle'),
-                title:localStorage.getItem('searchArticle')
+                searchArticle: localStorage.getItem('searchArticle'),
+                title: localStorage.getItem('searchArticle')
             })
         }
-        else
-        {
+        else {
             this.props.history.push('/')
         }
-        
+
     }
     handleChange = (event) => {
         event.preventDefault();
@@ -78,21 +76,20 @@ class SearchArticle extends React.Component<any, any>{
             return;
         }
         localStorage.setItem('title', this.state.title)
-        if(Object.keys(article).length>0)
-        {
-            localStorage.setItem('description',article.description)
-            localStorage.setItem('descriptionId','0')
-            localStorage.setItem('titleId','0')
+        if (Object.keys(article).length > 0) {
+            localStorage.setItem('description', article.description)
+            localStorage.setItem('descriptionId', '0')
+            localStorage.setItem('titleId', '0')
             this.hideValidationMessage()
             this.props.history.push('/writearticle')
         }
-        else{
-            localStorage.setItem('descriptionId','0')
-            localStorage.setItem('titleId','0')
+        else {
+            localStorage.setItem('descriptionId', '0')
+            localStorage.setItem('titleId', '0')
             this.props.history.push('/writearticle')
-            
+
         }
-        
+
 
 
     }

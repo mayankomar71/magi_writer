@@ -4,6 +4,7 @@ import Header from '../header/header'
 import Footer from '../footer/footer'
 import { getuserArticles, deleteArticle } from '../../actions/searchActions'
 import { Store } from "../../Store";
+import Popup from '../../general/popUp/popUp'
 import './dashboard.css'
 // eslint-disable-next-line
 
@@ -13,7 +14,9 @@ class DashBoard extends React.Component<any, any>{
         super(props)
 
         this.state = {
-            foundArticles: []
+            foundArticles: [],
+            deleteMode: false,
+            deleteAricleData: null
         }
     }
     logOut = (event: any) => {
@@ -22,8 +25,8 @@ class DashBoard extends React.Component<any, any>{
         this.props.history.push('/')
     }
     componentDidMount() {
-        sessionStorage.getItem('userId')?(localStorage.getItem('description')||localStorage.getItem('title')?this.props.history.push('/writeArticle'):''):this.props.history.push('/')
-        localStorage.getItem('description')||localStorage.getItem('title')?'':localStorage.clear()
+        sessionStorage.getItem('userId') ? (localStorage.getItem('description') || localStorage.getItem('title') ? this.props.history.push('/writeArticle') : '') : this.props.history.push('/')
+        localStorage.getItem('description') || localStorage.getItem('title') ? '' : localStorage.clear()
         let { dispatch } = this.context;
         let userId = sessionStorage.getItem('userId')
         let body = {
@@ -36,7 +39,7 @@ class DashBoard extends React.Component<any, any>{
         this.props.history.push('/writeArticle')
     }
     componentWillReceiveProps(_nextProps, nextContext) {
-        let { state ,dispatch} = nextContext;
+        let { state, dispatch } = nextContext;
 
         if (state.searchArticleReducer.foundArticles && state.searchArticleReducer.foundArticles.length > 0) {
             this.setState({
@@ -60,6 +63,14 @@ class DashBoard extends React.Component<any, any>{
         this.props.history.push('/writeArticle')
     }
     deleteArticle = (article) => {
+        this.setState({
+            deleteAricleData: article,
+            deleteMode: true,
+        });
+
+    }
+    confirmDelete = (article) => {
+
         let { dispatch } = this.context;
         let body = {
             "titelID": String(article.titelId),
@@ -67,10 +78,30 @@ class DashBoard extends React.Component<any, any>{
             "userId": sessionStorage.getItem('userId')
         }
         deleteArticle(dispatch, body)
+        this.setState({
+            deleteMode: false,
+            deleteAricleData: null
+        });
     }
+    cancelDelete = (event: any) => {
+        event.preventDefault();
+        this.setState({
+            deletePropertyData: null,
+            deleteMode: false,
+        });
+    };
     render() {
         return (
             <React.Fragment >
+                {this.state.deleteMode && (
+                    <Popup
+                        confirmCallBack={() => this.confirmDelete(this.state.deleteAricleData)}
+                        cancelCallBack={this.cancelDelete}
+                        popupText={"Do you want to Delete this Article"}
+                        confirmButtonText={"Delete Article"}
+                        cancelButtonText={"Cancel"}
+                    />
+                )}
                 <Header />
                 <section id="article-library">
                     <div className="container">
