@@ -79,7 +79,6 @@ class Login extends React.Component<any, any>{
             <React.Fragment>
                 <Header />
                 <div className="registration-wrapper">
-                    <button type="button" className="close" aria-hidden="true">×</button>
                     <div className="logo-bg"><img src="../../assets/images/logo.png" alt="" /></div>
                     <div className="login-form-1">
                         <h2 id="heading">Login</h2>

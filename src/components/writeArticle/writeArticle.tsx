@@ -115,9 +115,9 @@ class WriteArticle extends React.Component<any, any>{
             let body = {
                 "userId": sessionStorage.getItem('userId'),
                 "titleName": this.state.title,
-                "description": this.state.article.replace(/(<([^>]+)>)/gi, "").length > 0 ? this.state.article : '',
-                "titelId": (localStorage.getItem("edit") && localStorage.getItem("edit") === "true") || (localStorage.getItem('title') === this.state.title) ? localStorage.getItem('titleId') : "0",
-                "descriptionId": localStorage.getItem('description') !== this.state.article.replace(/(<([^>]+)>)/gi, "") || localStorage.getItem('title') !== this.state.title ? ((localStorage.getItem("edit") && localStorage.getItem("edit") === "true") ? localStorage.getItem('descriptionId') : "0") : localStorage.getItem('descriptionId'),
+                "description": this.state.article,
+                "titelId": localStorage.getItem('titleId'),
+                "descriptionId": localStorage.getItem('descriptionId'),
             }
             saveArticle(dispatch, body, this.props.history)
         }
@@ -128,7 +128,7 @@ class WriteArticle extends React.Component<any, any>{
 
 
     }
-   
+
     render() {
         let { editTitleFlag, article, title, wordCount } = this.state
         return (

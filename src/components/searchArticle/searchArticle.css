@@ -64,6 +64,7 @@
       background:transparent;
       line-height: 17px;
       text-align: center;
+      font-weight: bold;
   }
   .slideshow {
       position: relative;
@@ -83,7 +84,6 @@
       
   }
   .slide-entry .slide-content {
-      width: 48.2%;
       border: 1px solid #ebebeb;
       border-radius: 5px;
       height: 250px;
@@ -93,6 +93,7 @@
       text-align: justify;
       overflow-y: hidden;
       margin-bottom: 10px;
+      width: 42%;
   }
 
   .slide-nav {
