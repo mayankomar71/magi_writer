@@ -4,7 +4,7 @@ import {loaderService} from '../general/loader/loader.service';
 
 export const  getArticles = (dispatch: any, params: any) => {
 
-    let url = "http://ec2-13-234-75-34.ap-south-1.compute.amazonaws.com:8088/api/user/articalList";
+    let url = "http://ec2-13-127-211-248.ap-south-1.compute.amazonaws.com:8088/api/user/articalList";
     loaderService.show("Loader2")
     axios.post(url,params)
       .then((response: any) => {
@@ -25,7 +25,7 @@ export const  getArticles = (dispatch: any, params: any) => {
 
   export const saveArticle =(dispatch:any,params:any ,history)=>
   {
-    let url="http://ec2-13-234-75-34.ap-south-1.compute.amazonaws.com:8088/api/user/addArticalDetails";
+    let url="http://ec2-13-127-211-248.ap-south-1.compute.amazonaws.com:8088/api/user/addArticalDetails";
     loaderService.show("Loader2")
     axios.post(url,params)
     .then((response: any) => {
@@ -47,7 +47,7 @@ export const  getArticles = (dispatch: any, params: any) => {
   }
   export const  getuserArticles = (dispatch: any, params: any) => {
 
-    let url = `http://ec2-13-234-75-34.ap-south-1.compute.amazonaws.com:8088/api/user/getUserData?userId=${params.userId}`;
+    let url = `http://ec2-13-127-211-248.ap-south-1.compute.amazonaws.com:8088/api/user/getUserData?userId=${params.userId}`;
     
     loaderService.show("Loader2")
     axios.get(url)
@@ -68,7 +68,7 @@ export const  getArticles = (dispatch: any, params: any) => {
   }
   export const  deleteArticle = (dispatch: any, params: any) => {
 
-    let url = `http://ec2-13-234-75-34.ap-south-1.compute.amazonaws.com:8088/api/user/deleteArtical`;
+    let url = `http://ec2-13-127-211-248.ap-south-1.compute.amazonaws.com:8088/api/user/deleteArtical`;
     
     loaderService.show("Loader2")
     axios.delete(url,{data:params})
