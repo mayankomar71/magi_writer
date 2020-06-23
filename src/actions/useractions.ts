@@ -14,7 +14,9 @@ export const loginAction = (dispatch: any, params: any, history:any) => {
       })
       sessionStorage.setItem('userId',response.data.data[0].id)
       sessionStorage.setItem('userStatus',response.data.data[0].status);
-      sessionStorage.setItem('emailId',response.data.data[0].email.split("@")[0])
+      sessionStorage.setItem('emailId',response.data.data[0].email)
+      sessionStorage.setItem('username',response.data.data[0].username)
+      
       history.push('/dashboard')
     })
     .catch((error)=> { 

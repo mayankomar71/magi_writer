@@ -12,8 +12,7 @@ const Header = (props) => {
         localStorage.clear();
         props.history.push('/')
     }
-    const gotoDashboard=(event)=>
-    {
+    const gotoDashboard = (event) => {
         event.preventDefault();
         localStorage.clear();
         props.history.push('/dashboard')
@@ -30,7 +29,7 @@ const Header = (props) => {
                         <ul className="list-inline">
                             {!!userId && <li><a onClick={gotoDashboard}>My Essay</a></li>}
                             {<li><a href="/">HomePage</a></li>}
-                            <li className="dropdown show-on"><i className="fa fa-user"></i> <a data-toggle="dropdown" className="dropdown-toggle">{sessionStorage.getItem('emailId')?sessionStorage.getItem('emailId')?.toUpperCase():"My Account"} <span className="caret"></span></a>
+                            <li className="dropdown show-on"><i className="fa fa-user"></i> <a data-toggle="dropdown" className="dropdown-toggle">{sessionStorage.getItem('username') ? sessionStorage.getItem('username')?.toUpperCase() : "My Account"} <span className="caret"></span></a>
                                 <ul className="dropdown-menu">
                                     {!userId && <li><a href="/login"><i className="fa fa-sign-in"></i> Login</a></li>}
                                     {!userId && <li><a href="/signup"><i className="fa fa-lock"></i> Sign up</a></li>}

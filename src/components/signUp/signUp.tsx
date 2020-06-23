@@ -21,6 +21,7 @@ class SignUp extends React.Component<any, any> {
         this.state = {
             email: '',
             password: '',
+            fullName: '',
             userExist: false,
             confirmPassword: '',
             confirmPasswordError: false,
@@ -129,7 +130,7 @@ class SignUp extends React.Component<any, any> {
     onSubmit = (event: any) => {
         event.preventDefault();
         let { dispatch } = this.context
-        let { email, password, userExist, confirmPassword } = this.state
+        let { email, password, userExist, confirmPassword, fullName } = this.state
         if (!this.validator.allValid() || userExist) {
             this.showValidationMessage();
 
@@ -145,6 +146,7 @@ class SignUp extends React.Component<any, any> {
         }
 
         let params = {
+            username: fullName,
             emailid: email,
             password: password,
             status: "1"
@@ -169,7 +171,7 @@ class SignUp extends React.Component<any, any> {
         this.props.history.push('/login')
     }
     render() {
-        const { email, password, userExist, confirmPassword, confirmPasswordError } = this.state
+        const { email, password, userExist, confirmPassword, confirmPasswordError, fullName } = this.state
         return (
 
             <React.Fragment>
@@ -190,6 +192,16 @@ class SignUp extends React.Component<any, any> {
                         <p className="divider-text"> <span className="bg-light">OR</span> </p>
                         <form>
                             <div className="form-group">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Full Name"
+                                    name="fullName"
+                                    value={fullName}
+                                    onChange={this.handleChange}
+                                    style={this.setValidationFlag('fullName', fullName, validationRule.login.fullName) ? { borderColor: "red" } : { borderColor: "" }}
+                                />
+                                {this.validator.message('fullName', fullName, validationRule.login.fullName)}
                                 <input
                                     type="text"
                                     className="form-control"

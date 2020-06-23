@@ -9,6 +9,10 @@ import './writeArticle.css';
 import { Store } from "../../Store";
 import { saveArticle } from '../../actions/searchActions';
 import { withRouter } from 'react-router-dom'
+import Popup from './popUp'
+import axios from 'axios'
+import qs from 'qs'
+import { loaderService } from '../../general/loader/loader.service'
 // eslint-disable-next-line
 
 class WriteArticle extends React.Component<any, any>{
@@ -22,7 +26,11 @@ class WriteArticle extends React.Component<any, any>{
             editTitleFlag: false,
             wordCount: 0,
             tempTitle: '',
-            descriptionId: null
+            descriptionId: null,
+            grammerErrors: false,
+            replacements: [],
+            wordsReplacements: [],
+            matches: []
         }
     }
     componentDidMount() {
@@ -55,6 +63,50 @@ class WriteArticle extends React.Component<any, any>{
         this.setState({
             editTitleFlag: !this.state.editTitleFlag,
             title: this.state.tempTitle
+        })
+    }
+
+    checkGrammer = (event) => {
+        event.preventDefault();
+        let value = this.state.article.replace(/(<([^>]+)>)/gi, "");
+
+        if (value.length > 0) {
+            loaderService.show("Loader2")
+            //qs is used to send url encoded data
+            axios.post('https://api.languagetoolplus.com/v2/check', qs.stringify({
+                text: value,
+                language: 'en-US',
+                username: "tonnymoore1@gmail.com",
+                apiKey: 'fe2c459674143ac2'
+            }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' } })
+                .then((response) => {
+                    //handle success
+
+                    loaderService.hide("Loader2")
+                    if (response.data.matches && response.data.matches.length > 0) {
+                        this.setState({
+                            grammerErrors: true
+                        })
+                    }
+                    this.modifyData(response)
+
+                })
+                .catch(function (response) {
+                    //handle error
+                    console.log(response);
+                });
+
+        }
+    }
+    modifyData = (response) => {
+        let updatedArray: any = []
+        response.data.matches && response.data.matches.length > 0 && response.data.matches.map((item) => {
+            updatedArray.push(item.context.text.substring(item.context.offset, (item.context.offset + item.context.length)))
+
+        })
+        this.setState({
+            replacements: JSON.parse(JSON.stringify(updatedArray)),
+            matches: response.data.matches
         })
     }
 
@@ -129,17 +181,40 @@ class WriteArticle extends React.Component<any, any>{
 
     }
 
+    handlePopup = (event) => {
+        event.preventDefault();
+        let updatedArticle = this.state.article
+        this.state.matches && this.state.matches.length > 0 && this.state.matches.map((item) => {
+            let subString = item.context.text.substring(item.context.offset, (item.context.offset + item.context.length))
+            updatedArticle = updatedArticle.replace(subString, item.replacements[0].value)
+
+        })
+        this.setState({
+            grammerErrors: !this.state.grammerErrors,
+            article: updatedArticle
+        })
+    }
+
     render() {
-        let { editTitleFlag, article, title, wordCount } = this.state
+        let { editTitleFlag, article, title, wordCount, grammerErrors, replacements } = this.state
+
         return (
             <React.Fragment>
                 <Header />
+                {grammerErrors &&
+                    <Popup
+                        replacements={replacements}
+                        callback={this.handlePopup}
+                        article={article.replace(/(<([^>]+)>)/gi, "")}
+                    />}
+
                 <section id="article-library">
                     <div className="container">
                         <div className="row">
                             <div className="col-md-9">
                                 <div className="article-editor">
                                     <form>
+
                                         {!editTitleFlag && <label className="essay-title" id="essay-title">{title}<a onClick={this.editTitle}><i className="fa fa-edit" title="Change Title" style={{ cursor: "pointer" }}></i></a></label>}
                                         {editTitleFlag && <div className="title-edit" id="title-edit-form">
                                             <input type="text" className="form-control" value={title} name="title" onChange={this.handleChange} />
@@ -166,7 +241,7 @@ class WriteArticle extends React.Component<any, any>{
                                     <div className="article-menu">
                                         <ul className="nav">
                                             <li><a href="#"><i className="fa fa-file-text-o"></i> Check Plagiarism</a></li>
-                                            <li><a href="#"><i className="fa fa-check-square-o"></i> Check Grammar</a></li>
+                                            <li><a onClick={this.checkGrammer}><i className="fa fa-check-square-o"></i> Check Grammar</a></li>
                                             <li><a onClick={this.saveArticle}><i className="fa fa-save"></i> Save</a></li>
                                             <li><a onClick={this.handleDownload}><i className="fa fa-download"></i> Download</a></li>
                                         </ul>
