@@ -36,8 +36,10 @@ class WriteArticle extends React.Component<any, any>{
         }
     }
     componentDidMount() {
+        let description = localStorage.getItem('description')
+
         this.setState({
-            article: localStorage.getItem('description') ? localStorage.getItem('description') : '',
+            article: !description ? '' : description.replace(/(<([^>]+)>)/gi, ""),
             title: localStorage.getItem('title') ? localStorage.getItem('title') : 'Edit Title'
         })
     }
@@ -220,8 +222,14 @@ class WriteArticle extends React.Component<any, any>{
             this.handlePopup(false);
         }
 
+    }
 
-
+    resetArticle = (e) => {
+        e.preventDefault();
+        let description = localStorage.getItem('description')
+        this.setState({
+            article: !description ? '' : description.replace(/(<([^>]+)>)/gi, "")
+        })
     }
 
     render() {
@@ -291,6 +299,8 @@ class WriteArticle extends React.Component<any, any>{
                                             <li><a onClick={this.checkGrammer}><i className="fa fa-check-square-o"></i> Check Grammar</a></li>
                                             <li><a onClick={this.saveArticle}><i className="fa fa-save"></i> Save</a></li>
                                             <li><a onClick={this.handleDownload}><i className="fa fa-download"></i> Download</a></li>
+                                            <li><a onClick={this.resetArticle}><i className="fa fa-undo"></i>Undo</a></li>
+
                                         </ul>
                                     </div>
                                 </div>
