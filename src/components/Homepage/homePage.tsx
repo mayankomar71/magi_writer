@@ -18,20 +18,18 @@ class HomePage extends React.Component<any, any>{
 
     searchArticle = (event) => {
         event.preventDefault();
-        if(!this.state.searchInput)
-        {
+        if (!this.state.searchInput) {
             alert('Please enter the article you want to write')
         }
-        else{
-            
+        else {
+
             localStorage.setItem("searchArticle", this.state.searchInput)
             this.props.history.push('/searcharticle')
-            
+
         }
-    
+
     }
-    componentDidMount()
-    {
+    componentDidMount() {
         localStorage.clear();
     }
     render() {
@@ -58,7 +56,7 @@ class HomePage extends React.Component<any, any>{
                                     <li>
                                         <a href="/contactus">Contact</a>
                                     </li>
-                                    {!!sessionStorage.getItem('userId')&& <li><a>Welcome {!!sessionStorage.getItem("emailId")?sessionStorage.getItem("emailId")?.toUpperCase():''}</a></li>}
+                                    {!!sessionStorage.getItem('userId') && <li><a>Welcome {!!sessionStorage.getItem("username") ? sessionStorage.getItem("username")?.toUpperCase() : ''}</a></li>}
                                     {!sessionStorage.getItem('userId') && <li>
                                         <a href='/login'>Member Login</a>
                                     </li>}

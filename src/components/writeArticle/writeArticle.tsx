@@ -9,14 +9,16 @@ import './writeArticle.css';
 import { Store } from "../../Store";
 import { saveArticle } from '../../actions/searchActions';
 import { withRouter } from 'react-router-dom'
-import Popup from './popUp'
 import axios from 'axios'
 import qs from 'qs'
 import { loaderService } from '../../general/loader/loader.service'
+import Highlighter from 'react-highlight-words';
+import './popup.scss'
 // eslint-disable-next-line
 
 class WriteArticle extends React.Component<any, any>{
     static contextType = Store;
+    public node: any;
     constructor(props) {
         super(props)
 
@@ -68,35 +70,45 @@ class WriteArticle extends React.Component<any, any>{
 
     checkGrammer = (event) => {
         event.preventDefault();
-        let value = this.state.article.replace(/(<([^>]+)>)/gi, "");
+        !sessionStorage.getItem('userId') ? this.props.history.push('/login') : ''
+        if (!!sessionStorage.getItem('userId')) {
+            if (!this.state.grammerErrors) {
+                document.addEventListener('click', this.handleOutsideClick, false);
+            }
+            else {
+                document.removeEventListener('click', this.handleOutsideClick, false);
+            }
+            let value = this.state.article.replace(/(<([^>]+)>)/gi, "");
 
-        if (value.length > 0) {
-            loaderService.show("Loader2")
-            //qs is used to send url encoded data
-            axios.post('https://api.languagetoolplus.com/v2/check', qs.stringify({
-                text: value,
-                language: 'en-US',
-                username: "tonnymoore1@gmail.com",
-                apiKey: 'fe2c459674143ac2'
-            }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' } })
-                .then((response) => {
-                    //handle success
+            if (value.length > 0) {
+                loaderService.show("Loader2")
+                //qs is used to send url encoded data
+                axios.post('https://api.languagetoolplus.com/v2/check', qs.stringify({
+                    text: value,
+                    language: 'en-US',
+                    username: "tonnymoore1@gmail.com",
+                    apiKey: 'fe2c459674143ac2'
+                }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' } })
+                    .then((response) => {
+                        //handle success
 
-                    loaderService.hide("Loader2")
-                    if (response.data.matches && response.data.matches.length > 0) {
-                        this.setState({
-                            grammerErrors: true
-                        })
-                    }
-                    this.modifyData(response)
+                        loaderService.hide("Loader2")
+                        if (response.data.matches && response.data.matches.length > 0) {
+                            this.setState({
+                                grammerErrors: true
+                            })
+                        }
+                        this.modifyData(response)
 
-                })
-                .catch(function (response) {
-                    //handle error
-                    console.log(response);
-                });
+                    })
+                    .catch(function (response) {
+                        //handle error
+                        console.log(response);
+                    });
 
+            }
         }
+
     }
     modifyData = (response) => {
         let updatedArray: any = []
@@ -181,32 +193,67 @@ class WriteArticle extends React.Component<any, any>{
 
     }
 
-    handlePopup = (event) => {
-        event.preventDefault();
-        let updatedArticle = this.state.article
-        this.state.matches && this.state.matches.length > 0 && this.state.matches.map((item) => {
-            let subString = item.context.text.substring(item.context.offset, (item.context.offset + item.context.length))
-            updatedArticle = updatedArticle.replace(subString, item.replacements[0].value)
+    handlePopup = (correctErrors) => {
+        if (correctErrors) {
+            let updatedArticle = this.state.article
+            this.state.matches && this.state.matches.length > 0 && this.state.matches.map((item) => {
+                let subString = item.context.text.substring(item.context.offset, (item.context.offset + item.context.length))
+                updatedArticle = updatedArticle.replace(subString, item.replacements[0].value)
 
-        })
-        this.setState({
-            grammerErrors: !this.state.grammerErrors,
-            article: updatedArticle
-        })
+            })
+            this.setState({
+                grammerErrors: !this.state.grammerErrors,
+                article: updatedArticle
+            })
+        }
+        else {
+            this.setState({
+                grammerErrors: !this.state.grammerErrors
+            })
+        }
+
+    }
+
+    handleOutsideClick = (e) => {
+        if (this.node && !this.node.contains(e.target)) {
+
+            this.handlePopup(false);
+        }
+
+
+
     }
 
     render() {
         let { editTitleFlag, article, title, wordCount, grammerErrors, replacements } = this.state
 
         return (
-            <React.Fragment>
+            <div >
                 <Header />
                 {grammerErrors &&
-                    <Popup
-                        replacements={replacements}
-                        callback={this.handlePopup}
-                        article={article.replace(/(<([^>]+)>)/gi, "")}
-                    />}
+
+                    <section className="grammer-check-wrap">
+                        <div className="grammer-errors" ref={e => this.node = e}>
+                            <div className="grammer-heading">
+                                <h3>{"Grammer Errors"}</h3>
+
+                            </div>
+                            <div className="grammer-errors-found" >
+                                <Highlighter
+                                    highlightClassName="highlight"
+                                    searchWords={replacements}
+                                    autoEscape={true}
+                                    textToHighlight={article.replace(/(<([^>]+)>)/gi, "")}
+                                />
+
+                            </div>
+                            <input type="button" onClick={() => this.handlePopup(true)} value="Correct Grammer" className="action-button"></input>
+
+                        </div>
+                    </section>
+
+
+                }
 
                 <section id="article-library">
                     <div className="container">
@@ -253,7 +300,7 @@ class WriteArticle extends React.Component<any, any>{
                 </section>
 
                 <Footer />
-            </React.Fragment>
+            </div>
         )
     }
 
