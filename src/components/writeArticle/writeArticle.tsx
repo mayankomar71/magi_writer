@@ -12,8 +12,9 @@ import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import qs from 'qs'
 import { loaderService } from '../../general/loader/loader.service'
-import Highlighter from 'react-highlight-words';
+import ReactHtmlParser from 'react-html-parser'
 import './popup.scss'
+import Popup from '../../general/popUp/popUp'
 // eslint-disable-next-line
 
 class WriteArticle extends React.Component<any, any>{
@@ -30,9 +31,10 @@ class WriteArticle extends React.Component<any, any>{
             tempTitle: '',
             descriptionId: null,
             grammerErrors: false,
-            replacements: [],
-            wordsReplacements: [],
-            matches: []
+            matches: [],
+            updatedText: '',
+            articleTextArray: [],
+            noGrammerErrors: false
         }
     }
     componentDidMount() {
@@ -96,11 +98,19 @@ class WriteArticle extends React.Component<any, any>{
 
                         loaderService.hide("Loader2")
                         if (response.data.matches && response.data.matches.length > 0) {
+                            this.modifyData(response)
                             this.setState({
                                 grammerErrors: true
                             })
                         }
-                        this.modifyData(response)
+                        else {
+                            document.removeEventListener('click', this.handleOutsideClick, false);
+                            this.setState({
+                                noGrammerErrors: true
+                            })
+
+                        }
+
 
                     })
                     .catch(function (response) {
@@ -113,14 +123,24 @@ class WriteArticle extends React.Component<any, any>{
 
     }
     modifyData = (response) => {
-        let updatedArray: any = []
+        let updatedArray: any = this.state.article.replace(/(<([^>]+)>)/gi, "").split(' ');
+
         response.data.matches && response.data.matches.length > 0 && response.data.matches.map((item) => {
-            updatedArray.push(item.context.text.substring(item.context.offset, (item.context.offset + item.context.length)))
+            let subString = item.context.text.substring(item.context.offset, (item.context.offset + item.context.length));
+
+
+            let foundIndex = updatedArray.indexOf(subString);
+            if (foundIndex > -1) {
+                updatedArray.splice(foundIndex, 1, `<span id=${foundIndex}>${subString}</span>`)
+            }
+
+
 
         })
         this.setState({
-            replacements: JSON.parse(JSON.stringify(updatedArray)),
-            matches: response.data.matches
+            matches: response.data.matches,
+            updatedText: updatedArray.join(' '),
+            articleTextArray: JSON.parse(JSON.stringify(updatedArray))
         })
     }
 
@@ -197,30 +217,37 @@ class WriteArticle extends React.Component<any, any>{
 
     handlePopup = (correctErrors) => {
         if (correctErrors) {
-            let updatedArticle = this.state.article
+            let updatedArray: any = this.state.article.replace(/(<([^>]+)>)/gi, "").split(' ');
+
             this.state.matches && this.state.matches.length > 0 && this.state.matches.map((item) => {
-                let subString = item.context.text.substring(item.context.offset, (item.context.offset + item.context.length))
-                updatedArticle = updatedArticle.replace(subString, item.replacements[0].value)
+                let subString = item.context.text.substring(item.context.offset, (item.context.offset + item.context.length));
+                let foundIndex = updatedArray.indexOf(subString);
+                if (foundIndex > -1) {
+                    updatedArray.splice(foundIndex, 1, item.replacements[0].value)
+                }
 
             })
             this.setState({
                 grammerErrors: !this.state.grammerErrors,
-                article: updatedArticle
+                article: updatedArray.join(' '),
+                updatedText: ''
             })
+
+
         }
         else {
+            document.removeEventListener('click', this.handleOutsideClick, false);
             this.setState({
-                grammerErrors: !this.state.grammerErrors
+                grammerErrors: !this.state.grammerErrors,
+                updatedText: ''
             })
+
         }
 
     }
 
     handleOutsideClick = (e) => {
-        if (this.node && !this.node.contains(e.target)) {
-
-            this.handlePopup(false);
-        }
+        this.handleSingleChange(e.target && e.target.id)
 
     }
 
@@ -232,30 +259,75 @@ class WriteArticle extends React.Component<any, any>{
         })
     }
 
-    render() {
-        let { editTitleFlag, article, title, wordCount, grammerErrors, replacements } = this.state
+    handleSingleChange = (element) => {
 
+        let updatedArray = this.state.articleTextArray;
+        this.state.matches && this.state.matches.length > 0 && this.state.matches.map((item) => {
+
+            let subString = item.context.text.substring(item.context.offset, (item.context.offset + item.context.length));
+
+            let foundIndex = updatedArray.indexOf(`<span id=${element}>${subString}</span>`)
+
+            if (foundIndex > -1 && foundIndex == element) {
+
+                updatedArray.splice(foundIndex, 1, item.replacements[0].value)
+
+                if (updatedArray.join(' ').includes('<span')) {
+                    this.setState({
+                        updatedText: updatedArray.join(' '),
+                        article: updatedArray.join(' ')
+                    })
+                }
+                else {
+                    document.removeEventListener('click', this.handleOutsideClick, false);
+                    this.setState({
+                        updatedText: updatedArray.join(' '),
+                        article: updatedArray.join(' '),
+                        grammerErrors: false
+                    })
+
+                }
+            }
+
+        })
+
+    }
+    closePopup = (e) => {
+        e.preventDefault()
+        this.setState({
+            noGrammerErrors: false
+        })
+    }
+    render() {
+        let { editTitleFlag, article, title, wordCount, grammerErrors } = this.state
         return (
             <div >
                 <Header />
+                {this.state.noGrammerErrors && (
+                    <Popup
+                        continueCallBack={this.closePopup}
+                        popupText={"No Grammer Errors Found"}
+                        showContinue={true}
+                        continueText={"Ok"}
+                    />
+                )}
                 {grammerErrors &&
 
                     <section className="grammer-check-wrap">
-                        <div className="grammer-errors" ref={e => this.node = e}>
+                        <div className="grammer-errors">
                             <div className="grammer-heading">
                                 <h3>{"Grammer Errors"}</h3>
 
                             </div>
                             <div className="grammer-errors-found" >
-                                <Highlighter
-                                    highlightClassName="highlight"
-                                    searchWords={replacements}
-                                    autoEscape={true}
-                                    textToHighlight={article.replace(/(<([^>]+)>)/gi, "")}
-                                />
+                                {ReactHtmlParser(this.state.updatedText)}
 
                             </div>
-                            <input type="button" onClick={() => this.handlePopup(true)} value="Correct Grammer" className="action-button"></input>
+                            <div style={{ display: "flex" }}>
+
+                                <input type="button" onClick={() => this.handlePopup(false)} value="Cancel Correction" className="action-button"></input>
+                                <input type="button" onClick={() => this.handlePopup(true)} value="Correct Grammer" className="action-button"></input>
+                            </div>
 
                         </div>
                     </section>
