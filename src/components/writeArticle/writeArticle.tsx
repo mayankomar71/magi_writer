@@ -99,9 +99,6 @@ class WriteArticle extends React.Component<any, any>{
                         loaderService.hide("Loader2")
                         if (response.data.matches && response.data.matches.length > 0) {
                             this.modifyData(response)
-                            this.setState({
-                                grammerErrors: true
-                            })
                         }
                         else {
                             document.removeEventListener('click', this.handleOutsideClick, false);
@@ -122,25 +119,50 @@ class WriteArticle extends React.Component<any, any>{
         }
 
     }
+
+    hasDuplicates = (subString) => {
+        let updatedArray: any = this.state.article.replace(/(<([^>]+)>)/gi, "").split(' ');
+        let obj: any = {
+            [subString]: []
+        }
+        updatedArray.map((item: any, index: number) => {
+            if (item === subString) {
+                obj[subString].push(index)
+            }
+        })
+        return obj;
+    }
+
     modifyData = (response) => {
         let updatedArray: any = this.state.article.replace(/(<([^>]+)>)/gi, "").split(' ');
 
         response.data.matches && response.data.matches.length > 0 && response.data.matches.map((item) => {
             let subString = item.context.text.substring(item.context.offset, (item.context.offset + item.context.length));
-
-
-            let foundIndex = updatedArray.indexOf(subString);
-            if (foundIndex > -1) {
-                updatedArray.splice(foundIndex, 1, `<span id=${foundIndex}>${subString}</span>`)
+            let duplicates = this.hasDuplicates(subString);
+            if (duplicates[subString] && duplicates[subString].length > 0) {
+                duplicates[subString] && duplicates[subString].map((itemIndex) => {
+                    let tempArray = JSON.parse(JSON.stringify(this.state.article.replace(/(<([^>]+)>)/gi, "").split(' ')));
+                    tempArray.splice(itemIndex, 1, `<span id=${itemIndex}>${subString}</span>`);
+                    if (tempArray.join(' ').indexOf(`<span id=${itemIndex}>${subString}</span>`) === item.offset) {
+                        updatedArray.splice(itemIndex, 1, `<span id=${itemIndex}>${subString}</span>`)
+                    }
+                })
+            }
+            else {
+                let foundIndex = updatedArray.indexOf(subString);
+                if (foundIndex > -1) {
+                    updatedArray.splice(foundIndex, 1, `<span id=${foundIndex}>${subString}</span>`)
+                }
             }
 
-
-
         })
+
         this.setState({
             matches: response.data.matches,
-            updatedText: updatedArray.join(' '),
-            articleTextArray: JSON.parse(JSON.stringify(updatedArray))
+            updatedText: !updatedArray.join(' ').includes('<span') ? '' : updatedArray.join(' '),
+            articleTextArray: JSON.parse(JSON.stringify(updatedArray)),
+            grammerErrors: updatedArray.join(' ').includes('<span'),
+            noGrammerErrors: !updatedArray.join(' ').includes('<span')
         })
     }
 
@@ -215,34 +237,36 @@ class WriteArticle extends React.Component<any, any>{
 
     }
 
-    handlePopup = (correctErrors) => {
-        if (correctErrors) {
-            let updatedArray: any = this.state.article.replace(/(<([^>]+)>)/gi, "").split(' ');
+    handlePopup = (e) => {
 
-            this.state.matches && this.state.matches.length > 0 && this.state.matches.map((item) => {
-                let subString = item.context.text.substring(item.context.offset, (item.context.offset + item.context.length));
+        e.preventDefault();
+        let updatedArray: any = this.state.article.replace(/(<([^>]+)>)/gi, "").split(' ');
+
+        this.state.matches && this.state.matches.length > 0 && this.state.matches.map((item) => {
+            let subString = item.context.text.substring(item.context.offset, (item.context.offset + item.context.length));
+            let duplicates = this.hasDuplicates(subString);
+            if (duplicates[subString] && duplicates[subString].length > 0) {
+                duplicates[subString] && duplicates[subString].map((itemIndex) => {
+                    let tempArray = JSON.parse(JSON.stringify(this.state.article.replace(/(<([^>]+)>)/gi, "").split(' ')));
+                    tempArray.splice(itemIndex, 1, item.replacements[0].value);
+                    if (tempArray.join(' ').indexOf(item.replacements[0].value) === item.offset) {
+                        updatedArray.splice(itemIndex, 1, item.replacements[0].value)
+                    }
+                })
+            }
+            else {
                 let foundIndex = updatedArray.indexOf(subString);
                 if (foundIndex > -1) {
                     updatedArray.splice(foundIndex, 1, item.replacements[0].value)
                 }
+            }
+        })
+        this.setState({
+            grammerErrors: false,
+            article: updatedArray.join(' '),
+            updatedText: ''
+        })
 
-            })
-            this.setState({
-                grammerErrors: !this.state.grammerErrors,
-                article: updatedArray.join(' '),
-                updatedText: ''
-            })
-
-
-        }
-        else {
-            document.removeEventListener('click', this.handleOutsideClick, false);
-            this.setState({
-                grammerErrors: !this.state.grammerErrors,
-                updatedText: ''
-            })
-
-        }
 
     }
 
@@ -279,12 +303,13 @@ class WriteArticle extends React.Component<any, any>{
                     })
                 }
                 else {
-                    document.removeEventListener('click', this.handleOutsideClick, false);
+
                     this.setState({
-                        updatedText: updatedArray.join(' '),
+                        updatedText: '',
                         article: updatedArray.join(' '),
                         grammerErrors: false
                     })
+                    document.removeEventListener('click', this.handleOutsideClick, false);
 
                 }
             }
@@ -295,7 +320,16 @@ class WriteArticle extends React.Component<any, any>{
     closePopup = (e) => {
         e.preventDefault()
         this.setState({
-            noGrammerErrors: false
+            noGrammerErrors: false,
+
+        })
+    }
+
+    closeGrammerErrorPopup = (e) => {
+        e.preventDefault();
+        this.setState({
+            grammerErrors: false,
+
         })
     }
     render() {
@@ -324,9 +358,8 @@ class WriteArticle extends React.Component<any, any>{
 
                             </div>
                             <div style={{ display: "flex" }}>
-
-                                <input type="button" onClick={() => this.handlePopup(false)} value="Cancel Correction" className="action-button"></input>
-                                <input type="button" onClick={() => this.handlePopup(true)} value="Correct Grammer" className="action-button"></input>
+                                <input type="button" onClick={this.closeGrammerErrorPopup} value="Cancel Correction" className="action-button"></input>
+                                <input type="button" onClick={this.handlePopup} value="Correct Grammer" className="action-button"></input>
                             </div>
 
                         </div>
